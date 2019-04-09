@@ -1,6 +1,10 @@
 class PetsController < ApplicationController
   before_action :set_pet, only: [:show, :update, :destroy]
 
+  rescue_from ActiveRecord::RecordNotFound do
+    render json: {error: "PET_NOT_FOUND", message: "A pet with this id was not found"}, status: :not_found
+  end
+
   # GET /pets
   def index
     @pets = Pet.all

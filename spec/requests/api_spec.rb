@@ -9,6 +9,14 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
 
   context 'has valid paths' do
     describe "get information about a pet" do
+      it "try to get a non-existing pet" do
+        params = { "petId" => Pet.maximum(:id) + 1 }
+
+        expect(subject).to validate(
+          :get, '/pets/{petId}', 404, params
+        )
+      end
+
       it "gets an existing pet" do
         params = { "petId" => @pet.id }
 
