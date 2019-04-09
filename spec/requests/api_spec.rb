@@ -3,8 +3,29 @@ require 'rails_helper'
 RSpec.describe 'the API', type: :apivore, order: :defined do
   subject { Apivore::SwaggerChecker.instance_for('/swagger.json') }
 
+  before do
+    @pet = create(:pet, name: "Doggo")
+  end
+
   context 'has valid paths' do
-    # tests go here
+    describe "get information about a pet" do
+      it "gets an existing pet" do
+        params = { "petId" => @pet.id }
+
+        expect(subject).to validate(
+          :get, '/pets/{petId}', 200, params
+        )
+      end
+    end
+    describe "create a pet" do
+      it "creates a valid pet" do
+        body = { "pet" => {"name" => "Hulk", "photo_urls": ["url1", "url2"], "status" => "available" } }
+
+        expect(subject).to validate(
+          :post, '/pets', 201, { "_data" => body }
+        )
+      end
+    end
   end
 
   context 'and' do
