@@ -17,6 +17,14 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
         )
       end
 
+      it "uses an invalid pet id" do
+        params = { "petId" => "banana" }
+
+        expect(subject).to validate(
+          :get, '/pets/{petId}', 400, params
+        )
+      end
+
       it "gets an existing pet" do
         params = { "petId" => @pet.id }
 

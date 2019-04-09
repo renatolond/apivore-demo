@@ -1,8 +1,15 @@
 class PetsController < ApplicationController
+  before_action :validate_pet_id, only: [:show, :update, :destroy]
   before_action :set_pet, only: [:show, :update, :destroy]
 
   rescue_from ActiveRecord::RecordNotFound do
     render json: {error: "PET_NOT_FOUND", message: "A pet with this id was not found"}, status: :not_found
+  end
+
+  class InvalidPetId < StandardError; end
+
+  rescue_from InvalidPetId do
+    render json: {error: "INVALID_ID_ERROR", message: "An id can only contain numbers"}, status: :bad_request
   end
 
   # GET /pets
@@ -43,6 +50,13 @@ class PetsController < ApplicationController
   end
 
   private
+
+    def validate_pet_id
+      if params[:id].match?(/[^0-9]/)
+        raise InvalidPetId
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_pet
       @pet = Pet.find(params[:id])
