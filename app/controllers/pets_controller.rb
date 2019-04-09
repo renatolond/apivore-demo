@@ -12,6 +12,10 @@ class PetsController < ApplicationController
     render json: {error: "INVALID_ID_ERROR", message: "An id can only contain numbers"}, status: :bad_request
   end
 
+  rescue_from Pet::NameTaken do
+    render json: {error: "PET_ALREADY_EXISTS", message: "A pet with this name is already available for donation"}, status: :conflict
+  end
+
   # GET /pets
   def index
     @pets = Pet.all

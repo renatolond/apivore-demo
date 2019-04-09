@@ -41,6 +41,13 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
           :post, '/pets', 201, { "_data" => body }
         )
       end
+      it "creates a pet with an existing name" do
+        body = { "pet" => {"name" => "Doggo", "photo_urls": ["url1", "url2"], "status" => "available" } }
+
+        expect(subject).to validate(
+          :post, '/pets', 409, { "_data" => body }
+        )
+      end
     end
   end
 
