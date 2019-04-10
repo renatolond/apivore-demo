@@ -2,6 +2,16 @@
 
 This repository contains a demo of the Apivore gem for the Ruby Belgium Code Together of 9th of April of 2019.
 
+## Motivation
+
+It's not unusual to have frontend and backend being done at the same time, often business has requirements for a certain feature to be released at a given date and both teams start working together. On the other end, public APIs that are not poorly documented generates a lot of time of support, because the users cannot do what they expect.
+
+Testing API responses are a good way to deal with both cases. Making sure your API is returning what you agreed on your documentation makes frontend easier to write, because responses can be mocked with certainty regarding what the backend is going to return. And it makes so that your documentation in the case of public APIs will not be out of date.
+
+There are several ways to achieve this, in this presentation we're using [Swagger](https://swagger.io) to document our API and [APIvore](https://github.com/westfieldlabs/apivore/) to test it.
+
+We're going to make an api app in Rails to test an API based on the petstore example from Swagger.
+
 ## Step-by-step
 
 1) An app was created with:
